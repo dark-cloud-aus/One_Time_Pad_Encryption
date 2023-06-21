@@ -1,0 +1,43 @@
+# A 'one-time pad' python cryptography project written by David Gilmore, 2023.
+# The script generates a completely random key which is the same length as the
+# original message. It then combines that key with the original message using
+# modular addition, making the encrpytion almost impossible to hack.
+
+# Why I love this form of encryption is because the number of possible keys is
+# as least as large as the number of possible messages! 
+
+# import modules required
+import random
+
+# Define generate key and randomize
+def generate_key(length):
+    key = ''
+    for _ in range(length):
+        key += chr(random.randint(0, 255))
+    return key
+
+# Define the encrypted message
+def encrypt(message, key):
+    encrypted_message = ''
+    for i in range(len(message)):
+        encrypted_message += chr(ord(message[i]) ^ ord(key[i]))
+    return encrypted_message
+
+# Finally define the decrypted key
+def decrypt(encrypted_message, key):
+    decrypted_message = ''
+    for i in range(len(encrypted_message)):
+        decrypted_message += chr(ord(encrypted_message[i]) ^ ord(key[i]))
+    return decrypted_message
+
+# Example usage. Script asks user for their secret message and then shows them the encrypted message.
+print("Type your secret message in plain text: ")
+message = input("Message: ")
+key = generate_key(len(message))
+
+encrypted_message = encrypt(message, key)
+decrypted_message = decrypt(encrypted_message, key)
+
+print("Original message:", message)
+print("Encrypted message:", encrypted_message)
+print("Decrypted message:", decrypted_message)
